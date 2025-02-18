@@ -116,7 +116,7 @@
             securityJsCode: "8c9a26e733b197e9a8b86ea7baa3d592",
         };
     </script>
-    <script language="javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=05274d5027e6b22978b2ade4630f3596&plugin=AMap.DistrictSearch,AMap.Scale,AMap.ToolBar,AMap.GeometryUtil,AMap.MouseTool,AMap.Geocoder,AMap.Driving,AMap.Text"></script>
+    <script language="javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=05274d5027e6b22978b2ade4630f3596&plugin=AMap.DistrictSearch,AMap.Scale,AMap.ToolBar,AMap.GeometryUtil,AMap.MouseTool,AMap.Geocoder,AMap.Driving,AMap.Text,AMap.DistrictLayer"></script>
 
 </head>
 <body>
@@ -150,20 +150,23 @@
                 level: 'city'
             });
 
-            provinceLayer = new AMap.DistrictLayer.Province({
-                zIndex: 12,
-                opacity: 0.8,
-                visible: true,
-                styles: {
-                    'fill': '#F5F5F5',
-                    'province-stroke': '#D4D4D4',
-                    'city-stroke': '#D4D4D4',
-                    'county-stroke': '#D4D4D4'
-                }
-            });
+            // 等待地图加载完成后再创建 provinceLayer
+            map.on('complete', function() {
+                provinceLayer = new AMap.DistrictLayer.Province({
+                    zIndex: 12,
+                    opacity: 0.8,
+                    visible: true,
+                    styles: {
+                        'fill': '#F5F5F5',
+                        'province-stroke': '#D4D4D4',
+                        'city-stroke': '#D4D4D4',
+                        'county-stroke': '#D4D4D4'
+                    }
+                });
 
-            generateClusterButtons();
-            showAllProvinces();
+                generateClusterButtons();
+                showAllProvinces();
+            });
         }
 
         function clearRoutes() {
